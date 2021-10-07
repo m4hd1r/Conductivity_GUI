@@ -15,7 +15,7 @@ from PlotTab import PlotTab
 from DataTab import DataTab
 from tkinter import filedialog
 from tkinter import messagebox
-import sounddevice as sd
+
 import datetime
 
 class ReaderWindow():
@@ -139,6 +139,15 @@ class ReaderWindow():
 			logging_period = (int)(50*sampling_rate);
 			self.settingTab.set(field = 'Logging Period [s]',value = logging_period);
 		#print(F"sampling rate: {sampling_rate} logging_period: {logging_period}");
+		for i in range (14):
+			j = i +1;
+			if(j < 10):
+				chn_name = self.settingTab.get(field = F"CH{j}  Sensor  Type")
+			else:
+				chn_name = self.settingTab.get(field = F"CH{j} Sensor  Type")
+			print(chn_name )
+			self.chn.set_name(channel = i, name = chn_name)
+
 		command = "run," + str(logging_period) + "," + str(sampling_rate) +"\n";
 		self.serialIO.send(command); 
 		self.change_status_to(F'Running the experiment with sampling rate of {sampling_rate}ms and total length of {logging_period}s | {logging_period/60:.2f}mins | {logging_period/3600:.2f}hours')
