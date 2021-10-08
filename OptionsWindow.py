@@ -20,8 +20,8 @@ class OptionsWindow():
 		#self.trace_en[1].set(1)
 		#self.trace_en[2].set(1)
 		#self.trace_en[3].set(1)
+		self.trace_en[3].set(1)
 		self.trace_en[4].set(1)
-		self.trace_en[5].set(1)
 
 		self.past_x_axis 	= tk.IntVar(); 
 		self.x_axis 		= tk.IntVar(); # select between time or samples?!
