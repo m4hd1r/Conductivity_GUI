@@ -80,7 +80,7 @@ class SerialIO():
 
 	def connect(self):
 		self.ser.baudrate = self.baudrate_entry.get();
-
+		self.flush();
 		print(F"Serial :: Baudrate is set to {self.ser.baudrate}")
 		if(self.ser.is_open == True):
 			self.ser.close()
@@ -135,3 +135,5 @@ class SerialIO():
 		return self.bitrate
 
 	
+	def flush(self):
+		self.serBuffer = ""

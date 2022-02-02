@@ -25,7 +25,8 @@ class SettingTab():
 							['Logging Period [s]',		''			, 0, 0],
 							['Sampling Rate [ms]',		''			, 0, 0],
 							['Acq. Start Date',			''			, 0, 1],
-							['Acq. Start Time',			''			, 0, 1]]
+							['Acq. Start Time',			''			, 0, 1],
+							['0: 12.5kHz 1:6.25kHz',	'0'			, 1, 1]]
 		
 		
 		self.col2_name = 'Statistics'

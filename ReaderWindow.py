@@ -120,7 +120,7 @@ class ReaderWindow():
 		#self.serialIO.send("*,\n")
 		#self.serialIO.send("S,50,1000\n")
 		#print("run experiment called")
-		
+		self.serialIO.flush();
 		setting_field = self.settingTab.get(field ='Logging Period [s]')
 		if(setting_field == ""):
 			return;
@@ -147,20 +147,29 @@ class ReaderWindow():
 				chn_name = self.settingTab.get(field = F"CH{j} Sensor  Type")
 			print(chn_name )
 			self.chn.set_name(channel = i, name = chn_name)
-
-		command = "run," + str(logging_period) + "," + str(sampling_rate) +"\n";
+		
+		setting_field = self.settingTab.get(field ='0: 12.5kHz 1:6.25kHz')
+		frequency_selection = int(setting_field);
+		if(frequency_selection != 0 and frequency_selection != 1):
+			frequency_selection = 0
+			self.settingTab.set(field = '0: 12.5kHz 1:6.25kHz', value = 0)
+		command = "freq,"+ str(frequency_selection)+"\n"
+		self.serialIO.send(command)
+		command = "run," + str(logging_period) + "," + str(sampling_rate) + "\n"
 		self.serialIO.send(command); 
-		self.change_status_to(F'Running the experiment with sampling rate of {sampling_rate}ms and total length of {logging_period}s | {logging_period/60:.2f}mins | {logging_period/3600:.2f}hours')
+		self.change_status_to(F'Running the experiment with sampling rate of {sampling_rate}ms and total length of {logging_period}s | {logging_period/60:.2f}mins | {logging_period/3600:.2f}hours | {(2-frequency_selection)*6.25:.2f}kHz')
 		return 1;
 
 	def pause_experiment(self):
 		self.serialIO.send("pause\n")
+		self.serialIO.flush()
 		print("pause experiment called")
 		self.change_status_to('The experiment has been paused')
 		return 1
 
 	def stop_experiment(self):
 		self.serialIO.send("stop\n")
+		self.serialIO.flush();
 		self.commandbar.run_button.go_idle()
 		print("stop experiment called")
 		self.change_status_to('The experiment has been stopped')
@@ -168,6 +177,7 @@ class ReaderWindow():
 
 	def serial_connect(self):
 		print("serial connect called")
+		self.serialIO.flush();
 		if(self.serialIO.connect() == 1):
 			self.commandbar.run_button.enable();
 			self.commandbar.stop_button.enable();
