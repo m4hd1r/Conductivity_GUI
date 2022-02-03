@@ -361,7 +361,7 @@ class ReaderWindow():
 		#self.SerialIO.connect(115200,'COM12')
 		#data = np.random.uniform(-1, 1, fs)
 		
-		self.change_status_to("Graphics by various artists from Flaticon")
+		self.change_status_to("Graphics by various artists of Flaticon")
 		
 		self.chn.add_channel(name = "CHN0")
 		self.chn.add_channel(name = "CHN1")
